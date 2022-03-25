@@ -3,6 +3,8 @@ const glob = require('glob');
 const webpack = require('webpack');
 const context = path.resolve(__dirname, 'src');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const setMPA = () => {
   const entry = {};
@@ -91,7 +93,13 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: false,
+              importLoaders: 2,
+            },
+          },
           {
             loader: 'postcss-loader',
             options: {
@@ -129,7 +137,6 @@ module.exports = {
           filename: 'img/[name].[hash:8][ext]',
         },
       },
-
       /* config.module.rule('postcss') */
       {
         test: /\.p(ost)?css$/,
@@ -255,12 +262,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.ids.HashedModuleIdsPlugin({
-      context: __dirname,
-      hashFunction: 'sha256',
-      hashDigest: 'hex',
-      hashDigestLength: 20,
-    }),
+    new VueLoaderPlugin(),
+    new CaseSensitivePathsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.ProvidePlugin({
       mapGetters: ['vuex', 'mapGetters'],
       Vue: ['vue', 'default'],

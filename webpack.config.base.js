@@ -3,7 +3,7 @@ const glob = require('glob');
 const webpack = require('webpack');
 const context = path.resolve(__dirname, 'src');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 const setMPA = () => {
   const entry = {};
   const HtmlWebpackPlugins = [];
@@ -261,7 +261,6 @@ module.exports = {
       hashDigest: 'hex',
       hashDigestLength: 20,
     }),
-    new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
       mapGetters: ['vuex', 'mapGetters'],
       Vue: ['vue', 'default'],

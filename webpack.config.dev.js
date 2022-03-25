@@ -9,7 +9,16 @@ const devConfig = {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    static: path.join(__dirname, './'),
+    static: [
+      {
+        directory: path.join(__dirname, 'dist'),
+        serveIndex: true,
+      },
+      {
+        directory: path.join(__dirname, 'public'),
+        serveIndex: false,
+      },
+    ],
     host: 'localhost',
     port: 8088,
     compress: true,
